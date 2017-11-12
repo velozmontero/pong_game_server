@@ -48,8 +48,6 @@ module.exports = function(http) {
           console.log('NO ACTION');
           break;
       }
-
-      return io.emit('GAME UPDATE', Game);
     });
   
     socket.on('GAME UPDATE', function () {
