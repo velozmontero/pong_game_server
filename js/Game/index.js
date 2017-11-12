@@ -59,17 +59,17 @@ Game.prototype.stop = function(){
   return this.score;
 }
 
-Game.prototype.removePerson = function(ID){
+Game.prototype.unsubscribe = function(ID){
   var PLAYER_TO_BE_REMOVED = this.PLAYERS[ID];
   var SPECTATOR_TO_BE_REMOVED = this.SPECTATORS[ID];
 
   if (PLAYER_TO_BE_REMOVED){
     delete this.PLAYERS[ID];
-    return PLAYER_TO_BE_REMOVED;
+    return { user: PLAYER_TO_BE_REMOVED, player: true };
   }
   else if (SPECTATOR_TO_BE_REMOVED){
     delete this.SPECTATORS[ID];
-    return SPECTATOR_TO_BE_REMOVED;
+    return { user: SPECTATOR_TO_BE_REMOVED, player: false };
   }
   return false;
 }

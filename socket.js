@@ -19,15 +19,15 @@ module.exports = function(http) {
       
       Game.subscribe(socket, name, (Player, msg, ready) => {
         if(Player){
-          io.emit('JOINED AS PLAYER', Player);
+          socket.emit('JOINED AS PLAYER', Player);
         }
         else {
-          io.emit('JOINED AS EXPECTAROR', msg);
+          return socket.emit('JOINED AS EXPECTAROR', Game);
         }
 
-        if (Player && ready){
+        if (ready){
           Game.initializeBall();
-          io.emit('START GAME', Game);
+          return io.emit('START GAME', Game);
         }
       });
     });
@@ -35,31 +35,33 @@ module.exports = function(http) {
     socket.on('ACTION', function(action){
       console.log(action);
 
-      switch (action.type) {
-        case 'MOVE':
-          Game.PLAYERS[socket.id].move(action.direction, true);
-          break;
+      if (Game.PLAYERS[socket.id]){
+        switch (action.type) {
+          case 'MOVE':
+            Game.PLAYERS[socket.id].move(action.direction, true);
+            break;
 
-        case 'STOP':
-          Game.PLAYERS[socket.id].move(action.direction, false);
-          break;  
-      
-        default:
-          console.log('NO ACTION');
-          break;
+          case 'STOP':
+            Game.PLAYERS[socket.id].move(action.direction, false);
+            break;
+
+          default:
+            console.log('NO ACTION');
+            break;
+        }
       }
     });
   
     socket.on('GAME UPDATE', function () {
       Game.update();
     
-      return io.emit('GAME UPDATE', Game);
+      return socket.emit('GAME UPDATE', Game);
     });
 
     socket.on('disconnect', function () {
-      var removed = Game.removePerson(socket.id);
+      var removed = Game.unsubscribe(socket.id);
 
-      if(removed){
+      if (removed && removed.player){
         if (Object.keys(Game.PLAYERS).length){
           Game.stop();
         }
@@ -67,11 +69,15 @@ module.exports = function(http) {
           Game.reset();
         }
 
-        console.log('disconnected ', removed.name);
+        console.log('disconnected ', removed.user.name);
         return io.emit('END GAME', Game);
       }
+      else if(removed && !removed.player){
+        console.log('disconnected user', removed.user.name);
+        return io.emit('SPECTATOR LEFT', Game);
+      }
       else {
-        console.log('disconnected user');
+        console.log('user disconected');
       }
     }); 
   });
