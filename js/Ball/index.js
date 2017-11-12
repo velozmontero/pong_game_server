@@ -41,7 +41,7 @@ Ball.prototype.update = function (Game) {
   }
 
   for(const ID in PLAYERS){
-    if (PLAYERS[ID].side === 'left' && this.position.x < PLAYERS[ID].position.x + PLAYERS[ID].dimensions.width) {
+    if (PLAYERS[ID].side === 'left' && this.position.x > PLAYERS[ID].position.x && this.position.x < PLAYERS[ID].position.x + PLAYERS[ID].dimensions.width) {
       if (this.position.y < PLAYERS[ID].position.y + PLAYERS[ID].dimensions.height &&
         this.position.y > PLAYERS[ID].position.y) {
 
@@ -52,7 +52,7 @@ Ball.prototype.update = function (Game) {
       }
     }
 
-    if (PLAYERS[ID].side === 'right' && this.position.x > PLAYERS[ID].position.x - PLAYERS[ID].dimensions.width) {
+    if (PLAYERS[ID].side === 'right' && this.position.x > PLAYERS[ID].position.x - this.size && this.position.x < PLAYERS[ID].position.x + PLAYERS[ID].dimensions.width - this.size) {
       if (this.position.y < PLAYERS[ID].position.y + PLAYERS[ID].dimensions.height &&
         this.position.y > PLAYERS[ID].position.y) {
 
