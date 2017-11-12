@@ -21,7 +21,7 @@ Game.prototype.changeDimensions = function(w,h){
   return dimensions;
 }
 
-Game.prototype.subscribe = function (socket, name, callback) {
+Game.prototype.subscribe = function(socket, name, callback){
   var PLAYERS = this.PLAYERS;
   var ID = socket.id;
 
@@ -44,22 +44,22 @@ Game.prototype.subscribe = function (socket, name, callback) {
   }
 }
 
-Game.prototype.addExpectaror = function (socket, name) {
+Game.prototype.addExpectaror = function(socket, name){
   var ID = socket.id;
   this.SPECTATORS[ID] = new Spectator(socket, name);
 }
 
-Game.prototype.initializeBall = function () {
+Game.prototype.initializeBall = function(){
   this.BALL.initialize();
   return this.BALL;
 }
 
-Game.prototype.stop = function () {
+Game.prototype.stop = function(){
   this.running = false;
   return this.score;
 }
 
-Game.prototype.removePerson = function (ID) {
+Game.prototype.removePerson = function(ID){
   var PLAYER_TO_BE_REMOVED = this.PLAYERS[ID];
   var SPECTATOR_TO_BE_REMOVED = this.SPECTATORS[ID];
 
@@ -74,7 +74,7 @@ Game.prototype.removePerson = function (ID) {
   return false;
 }
 
-Game.prototype.reset = function () {
+Game.prototype.reset = function(){
   this.dimensions = { width: 700, height: 600, };
   this.PLAYERS = {};
 
@@ -85,6 +85,15 @@ Game.prototype.reset = function () {
   this.score = {};
 
   this.running = false;
+}
+
+Game.prototype.update = function(){
+  this.BALL.update(this);
+
+  for (var ID in this.PLAYERS) {
+    this.PLAYERS[ID].update(this.dimensions);
+    this.PLAYERS[ID].update(this.dimensions);
+  }
 }
 
 module.exports = new Game();

@@ -5,7 +5,7 @@ function Ball(dimensions){
     x: 0,
     y: 0
   };
-  this.speed = 3;
+  this.speed = 2;
   this.position = {
     x: dimensions.width / 2 - this.size / 2,
     y: dimensions.height / 2,
@@ -27,17 +27,35 @@ Ball.prototype.update = function (Game) {
   this.position.x += this.velocity.x;
   this.position.y += this.velocity.y;
 
+  // For testing we will allow the ball to bounce at both sides of the board
   if (this.position.x + this.size >= Game.dimensions.width) {
     this.velocity.x *= -1;
   }
+  if (this.position.x < 0 && this.velocity.x < 0) {
+    this.velocity.x *= -1;
+  }
+
+
   if (this.position.y <= 0 || this.position.y > Game.dimensions.height - this.size) {
     this.velocity.y *= -1;
   }
 
-  for(var ID in PLAYERS){
-    if (this.position.x < PLAYERS[ID].x + PLAYERS[ID].width) {
-      if (this.position.y < PLAYERS[ID].y + PLAYERS[ID].height &&
-        this.position.y > PLAYERS[ID].y) {
+  for(const ID in PLAYERS){
+    if (PLAYERS[ID].side === 'left' && this.position.x < PLAYERS[ID].position.x + PLAYERS[ID].dimensions.width) {
+      if (this.position.y < PLAYERS[ID].position.y + PLAYERS[ID].dimensions.height &&
+        this.position.y > PLAYERS[ID].position.y) {
+
+        //in here, it bounced against the PLAYERS[ID]
+        this.velocity.x *= -1;
+        this.velocity.x += PLAYERS[ID].velocity.x;
+        this.velocity.y += PLAYERS[ID].velocity.y;
+      }
+    }
+
+    if (PLAYERS[ID].side === 'right' && this.position.x > PLAYERS[ID].position.x - PLAYERS[ID].dimensions.width) {
+      if (this.position.y < PLAYERS[ID].position.y + PLAYERS[ID].dimensions.height &&
+        this.position.y > PLAYERS[ID].position.y) {
+
         //in here, it bounced against the PLAYERS[ID]
         this.velocity.x *= -1;
         this.velocity.x += PLAYERS[ID].velocity.x;
@@ -46,6 +64,10 @@ Ball.prototype.update = function (Game) {
     }
   }
 
+  // End the game if the ball hits the left or right side
+  // if (this.position.x + this.size >= Game.dimensions.width) {
+  //   Game.stop();
+  // }
   // if (this.position.x < 0 && this.velocity.x < 0) {
   //   Game.stop();
   // }

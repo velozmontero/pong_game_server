@@ -53,12 +53,7 @@ module.exports = function(http) {
     });
   
     socket.on('GAME UPDATE', function () {
-      Game.BALL.update(Game);
-
-      for (var ID in Game.PLAYERS){
-        Game.PLAYERS[ID].update(Game.dimensions);
-        Game.PLAYERS[ID].update(Game.dimensions);
-      }
+      Game.update();
     
       return io.emit('GAME UPDATE', Game);
     });
@@ -67,7 +62,15 @@ module.exports = function(http) {
       var removed = Game.removePerson(socket.id);
 
       if(removed){
+        if (Object.keys(Game.PLAYERS).length){
+          Game.stop();
+        }
+        else {
+          Game.reset();
+        }
+
         console.log('disconnected ', removed.name);
+        return io.emit('END GAME', Game);
       }
       else {
         console.log('disconnected user');
