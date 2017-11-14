@@ -4,6 +4,7 @@ var Ball = require('../Ball');
 
 function Game(){
   this.dimensions = { width: 700, height: 600, };
+
   this.PLAYERS = {};
 
   this.SPECTATORS = {};
@@ -91,7 +92,6 @@ Game.prototype.update = function(){
   this.BALL.update(this);
 
   for (var ID in this.PLAYERS) {
-    this.PLAYERS[ID].update(this.dimensions);
     this.PLAYERS[ID].update(this.dimensions);
   }
 }

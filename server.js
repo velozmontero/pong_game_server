@@ -11,7 +11,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/', function(req, res){
+app.get('*', function(req, res){
   res.send('<h1>Server For Pong Game</h1>');
 });
 

@@ -13,7 +13,7 @@ function Player(dimensions, socket, name, side){
 
   this.position = {
     x: side === 'left' ? 0 : dimensions.width - this.dimensions.width,
-    y: dimensions.height / 2 - 50,
+    y: dimensions.height / 2 - this.dimensions.height / 2,
   }
   
   this.velocity = {
@@ -61,12 +61,12 @@ Player.prototype.update = function (dimensions) {
   }
   
   if (this.side === 'right') {
-    this.position.x = Math.max(Math.min(Math.max(dimensions.width / 2, this.position.x + this.velocity.x), dimensions.width - this.dimensions.width), 0);
+    this.position.x = Math.min(Math.max(dimensions.width / 2, this.position.x + this.velocity.x), dimensions.width - this.dimensions.width), 0;
   }
 },
 
-Player.prototype.draw = function (ctx) {
-  ctx.fillRect(this.position.x, this.position.y, this.dimensions.width, this.dimensions.height);
-}
+// Player.prototype.draw = function (ctx) {
+//   ctx.fillRect(this.position.x, this.position.y, this.dimensions.width, this.dimensions.height);
+// }
 
 module.exports = Player;

@@ -35,7 +35,6 @@ Ball.prototype.update = function (Game) {
     this.velocity.x *= -1;
   }
 
-
   if (this.position.y <= 0 || this.position.y >= Game.dimensions.height - this.size) {
     this.velocity.y *= -1;
   }
@@ -62,8 +61,8 @@ Ball.prototype.update = function (Game) {
 
 };
 
-Ball.prototype.draw = function (ctx) {
-  ctx.fillRect(this.position.x, this.position.y, this.size, this.size);
-}
+// Ball.prototype.draw = function (ctx) {
+//   ctx.fillRect(this.position.x, this.position.y, this.size, this.size);
+// }
 
 module.exports = Ball;
