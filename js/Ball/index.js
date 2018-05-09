@@ -39,6 +39,8 @@ Ball.prototype.update = function (Game) {
     this.velocity.y *= -1;
   }
 
+
+  // MAKE BALL BOUNCE OF PLAYER
   for(const ID in PLAYERS){
     if (this.position.x > PLAYERS[ID].position.x - this.size && this.position.x < PLAYERS[ID].position.x + PLAYERS[ID].dimensions.width) {
       if (this.position.y > PLAYERS[ID].position.y - this.size && this.position.y < PLAYERS[ID].position.y + PLAYERS[ID].dimensions.height) {
