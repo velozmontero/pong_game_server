@@ -1,5 +1,4 @@
 function Ball(dimensions){
-  console.log('dimensions ',dimensions);
   this.size = 20;
   this.velocity = {
     x: 0,
@@ -29,10 +28,12 @@ Ball.prototype.update = function (Game) {
 
   // For testing we will allow the ball to bounce at both sides of the board
   if (this.position.x + this.size >= Game.dimensions.width && this.velocity.x > 0) {
-    this.velocity.x *= -1;
+    this.velocity.x *= -1; // make ball bounce of edge
+    // Game.stop();
   }
   if (this.position.x <= 0 && this.velocity.x < 0) {
-    this.velocity.x *= -1;
+    this.velocity.x *= -1; // make ball bounce of edge
+    // Game.stop();
   }
 
   if (this.position.y <= 0 || this.position.y >= Game.dimensions.height - this.size) {
@@ -52,19 +53,6 @@ Ball.prototype.update = function (Game) {
       }
     }
   }
-
-  // End the game if the ball hits the left or right side
-  // if (this.position.x + this.size >= Game.dimensions.width) {
-  //   Game.stop();
-  // }
-  // if (this.position.x < 0 && this.velocity.x < 0) {
-  //   Game.stop();
-  // }
-
 };
-
-// Ball.prototype.draw = function (ctx) {
-//   ctx.fillRect(this.position.x, this.position.y, this.size, this.size);
-// }
 
 module.exports = Ball;

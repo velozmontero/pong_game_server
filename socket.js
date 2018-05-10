@@ -6,7 +6,7 @@ module.exports = function(http) {
   io.on('connection', function (socket) {
     console.log('a user connected');
 
-    socket.emit('connected', 'conection established');
+    socket.emit('connected', 'conection stablished');
 
     socket.on('CHAT MESSAGE', function (data) {
       io.emit('CHAT MESSAGE', data);
@@ -22,10 +22,10 @@ module.exports = function(http) {
           socket.emit('JOINED AS PLAYER', Player);
         }
         else {
-          return socket.emit('JOINED AS EXPECTAROR', Game);
+          return socket.emit('JOINED AS SPECTATOR', Game);
         }
 
-        if (ready){
+        if (ready) {
           Game.initializeBall();
           return io.emit('START GAME', Game);
         }
@@ -77,7 +77,7 @@ module.exports = function(http) {
         return io.emit('SPECTATOR LEFT', Game);
       }
       else {
-        console.log('user disconected');
+        console.log('user disconnected');
       }
     }); 
   });

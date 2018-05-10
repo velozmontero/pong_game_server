@@ -61,12 +61,8 @@ Player.prototype.update = function (dimensions) {
   }
   
   if (this.side === 'right') {
-    this.position.x = Math.min(Math.max(dimensions.width / 2, this.position.x + this.velocity.x), dimensions.width - this.dimensions.width), 0;
+    this.position.x = Math.min(Math.max(dimensions.width / 2, this.position.x + this.velocity.x), dimensions.width - this.dimensions.width);
   }
 },
-
-// Player.prototype.draw = function (ctx) {
-//   ctx.fillRect(this.position.x, this.position.y, this.dimensions.width, this.dimensions.height);
-// }
 
 module.exports = Player;
