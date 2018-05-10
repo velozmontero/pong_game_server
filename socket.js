@@ -1,4 +1,4 @@
-var Game = require('./js/Game');
+var Game = require('./entities/Game');
 
 module.exports = function(http) {
   var io = require('socket.io')(http);

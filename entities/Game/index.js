@@ -17,9 +17,9 @@ function Game(){
 }
 
 Game.prototype.changeDimensions = function(w,h){
-  if (w) dimensions.width = w;
-  if (h) dimensions.height = h;
-  return dimensions;
+  if (w) this.dimensions.width = w;
+  if (h) this.dimensions.height = h;
+  return this.dimensions;
 }
 
 Game.prototype.subscribe = function(socket, name, callback){
@@ -31,8 +31,8 @@ Game.prototype.subscribe = function(socket, name, callback){
   }
 
   if (Object.keys(PLAYERS).length === 2) {
-    this.addExpectaror(socket, name, callback);
-    return callback(false, 'Expecator Added');
+    this.addSpectator(socket, name, callback);
+    return callback(false, 'Spectator Added');
   }
   else {
     var side = Object.keys(PLAYERS).length === 0 ? 'left' : 
@@ -45,7 +45,7 @@ Game.prototype.subscribe = function(socket, name, callback){
   }
 }
 
-Game.prototype.addExpectaror = function(socket, name){
+Game.prototype.addSpectator = function(socket, name){
   var ID = socket.id;
   this.SPECTATORS[ID] = new Spectator(socket, name);
 }
